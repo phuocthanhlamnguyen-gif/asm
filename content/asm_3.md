@@ -82,11 +82,11 @@ __double(int):
 
 After the first two lines of the `__double` function, the stack frame for this function is set and looks like this:
 
-![asm-3-stack-fram-of__double-1](./assets/asm-3-stack-of__double-1.svg)
+![asm-3-stack-fram-of__double-1](./assets/asm-3-stack-of__double-1.png)
 
 The third instruction of the `__double` function places its first parameter to the stack with an offset of `-20`. Next, the value `2`, representing the local variable two, is also stored on the stack with an offset of `-4`. At this point, the stack frame of our function looks like this:
 
-![asm-3-stack-fram-of__double-2](./assets/asm-3-stack-of__double-2.svg)
+![asm-3-stack-fram-of__double-2](./assets/asm-3-stack-of__double-2.png)
 
 Finally, we put the value from the stack at offset `-20` (the value of the function's parameter) into the `eax` register and multiply it by `2`, which is located on the stack at offset `-4`. The result of the multiplication is then stored in the `eax` register. This simple example shows how the stack is used to access both parameters and local variables of a function.
 
@@ -353,7 +353,7 @@ Before calculating the sum of two numbers from the command-line arguments, we ne
 
 According to the table above, the command-line arguments are located on the stack like this:
 
-![asm-3-args-on-stack](./assets/asm-3-args-on-stack.svg)
+![asm-3-args-on-stack](./assets/asm-3-args-on-stack.png)
 
 As we can see, the number of command-line arguments passed to the program is stored at the top of the stack, with the `rsp` register pointing to it. Fetching this value from the stack gives us the number of arguments. Additionally, we already know the `cmp` instruction, which allows us to compare two values. Using this knowledge, we can perform the first check in our program — verifying that the program got two arguments from the command-line or printing an error message otherwise:
 

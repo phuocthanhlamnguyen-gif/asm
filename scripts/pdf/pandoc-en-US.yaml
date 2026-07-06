@@ -1,0 +1,37 @@
+---
+metadata:
+  title: Introduction to the Assembly Programming Language
+  author: Alex Kuleshov
+  category: "License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License"
+  keywords:
+    - "assembly"
+    - "introduction"
+standalone: true
+variables:
+  documentclass: scrbook
+  lang: en-US
+  links-as-notes: true
+  lot: false
+  lof: false
+  margin-top: 1.27cm
+  margin-left: .635cm
+  margin-right: .635cm
+  margin-bottom: 1.27cm
+table-of-contents: true
+toc-depth: 2
+file-scope: true
+from: markdown+rebase_relative_paths
+include-in-header: include.tex
+verbosity: ERROR
+pdf-engine: xelatex
+template: unicode.latex
+input-files:
+  - ../../content/asm_1.md
+  - ../../content/asm_2.md
+  - ../../content/asm_3.md
+  - ../../content/asm_4.md
+  - ../../content/asm_5.md
+  - ../../content/asm_6.md
+  - ../../content/asm_7.md
+output-file: ../../introduction-to-assembly.pdf
+...
