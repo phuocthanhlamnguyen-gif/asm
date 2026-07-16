@@ -12,3 +12,4 @@ Special thanks to all the people who helped to develop this project:
 - [Yimura](https://github.com/Yimura)
 - [30be](https://github.com/30be)
 - [awatne](https://github.com/awatne)
+- [rcalixte](https://github.com/rcalixte)
