@@ -1,0 +1,54 @@
+---
+name: Generate PDF using Pandoc (Docker)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: null
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  create_pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker://pandoc/latex:3
+        timeout-minutes: 10
+        with:
+          entrypoint: /bin/sh
+          args: -c "cd scripts/pdf && ./pandoc-docker.sh"
+
+      - id: release_env
+        name: Setup environment for release step
+        shell: bash
+        run: |
+          short_sha="${GITHUB_SHA::7}"
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            {
+              echo "tag_name=dev-${short_sha}"
+              echo "prerelease=true"
+              echo "make_latest=false"
+            } >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "tag_name=${GITHUB_REF_NAME}"
+              echo "prerelease=false"
+              echo "make_latest=true"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.release_env.outputs.tag_name }}
+          target_commitish: ${{ github.sha }}
+          draft: false
+          prerelease: ${{ steps.release_env.outputs.prerelease }}
+          make_latest: ${{ steps.release_env.outputs.make_latest }}
+          fail_on_unmatched_files: true
+          files: |
+            *.pdf

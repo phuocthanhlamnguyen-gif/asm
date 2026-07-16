@@ -3,6 +3,7 @@
 Some days ago I wrote the first post about [Introduction to assembly](asm_1.md) which, to my surprise, caused great interest:
 
 ![newscombinator](./assets/newscombinator-screenshot.png)
+
 ![reddit](./assets/reddit-screenshot.png)
 
 It motivated me to continue describing my journey through learning assembly programming for Linux x86_64. During these days I got great feedback from people all over the Internet. There were many words of gratitude, but, what is more important to me, there was also much adequate advice and very useful criticism. Especially, I want to say thank you for the great feedback to:
@@ -59,7 +60,7 @@ You can find a detailed description of registers in the [Intel software develope
 
 There are 16 registers of 64 bits size, from `rax` to `r15`. Each register also has smaller parts with their own names. For example, as we may see in the table above, the lower 32 bits of the `rax` register are called `eax`. Similarly, the lower 16 bits of the `eax` register are called `ax`. Finally, the lower 8 bits of the `ax` register are called `al`, while the higher 8 bits are called `ah`. We can visualize this as:
 
-![rax](./assets/rax.svg)
+![rax](./assets/rax.png)
 
 The general purpose registers are used in many different cases, like performing arithmetic and logical operations, transferring data, memory address calculation operations, passing parameters to functions and system calls, and many more. When going through these chapters, we will see how to use the general purpose registers to perform different operations.
 
@@ -312,15 +313,15 @@ These two instructions at the beginning of each function are called [function pr
 
 Now that we know the rough meaning of the stack frame and the usage of the `rbp`, `rsp`, and `rip` registers, let's try to understand what happens when we call a function. Let's look at the stack before the `call foo` is executed. Our stack looks like this:
 
-![stack-before-call](./assets/stack-before-call.svg)
+![stack-before-call](./assets/stack-before-call.png)
 
 After executing the `call` instruction, the return address (or address of the next instruction) is pushed to the stack. So our stack layout during the call looks like this:
 
-![stack-during-call](./assets/stack-during-call.svg)
+![stack-during-call](./assets/stack-during-call.png)
 
 At the beginning of every new function, we must preserve the current value of the `rbp` register by pushing it onto the stack. This value acts as a base pointer of the previous function. In other words, the value of the `rbp` at the beginning of each function represents the address of the bottom (or the base) of the caller's stack. Since we are in a new function, it needs a new stack frame and, as a result, a new base. At this point, the stack layout looks like this:
 
-![stack-preserve-bp](./assets/stack-preserve-bp.svg)
+![stack-preserve-bp](./assets/stack-preserve-bp.png)
 
 The next step is to put the current value of the stack pointer (`rsp`) into the `rbp` register. This marks the beginning of the new stack frame for our function `foo`. With the stack frame ready, we can start managing function parameters and local variables.
 
@@ -334,7 +335,7 @@ Let's read once again the sentence from the paragraph above:
 
 What was the address stored in the `rbp` register? Our stack pointer! So after running the last `mov` instruction in the function `foo`, our stack frame looks like this:
 
-![stack](./assets/stack.svg)
+![stack](./assets/stack.png)
 
 That is the whole point of the `rbp` register. It plays the role of an anchor or a base point in the function. Using the positive offsets, we can access the return address and parameters pushed onto the stack by the caller. On the other hand, negative offsets allow us to access local variables of the current function.
 
