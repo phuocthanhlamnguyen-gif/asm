@@ -59,6 +59,11 @@ For RPM-based distributions, use:
 sudo dnf install gcc nasm binutils
 ```
 
+For Arch-based systems:
+
+```bash
+sudo pacman -S nasm
+```
 For other Linux distributions, refer to their documentation to learn how to install packages.
 
 Once you’ve installed and configured these tools, there’s one last thing you’ll need: a text editor to write your assembly code. The choice of editor is entirely up to you. Personally, I use [GNU Emacs](https://www.gnu.org/software/emacs/) with [nasm-mode](https://github.com/skeeto/nasm-mode) for assembly development. However, this is not mandatory — feel free to use any editor you’re comfortable with.
@@ -83,7 +88,7 @@ Code usually consists of two main elements: the code itself and comments. Commen
 -  `data` section
 -  `text` section
 
-The `data` section is used to declare static data with lifetime equal to the program's lifetime. To define the `data` section, use the following syntax:
+The `data` section is used to declare static data with a lifetime equal to the program's lifetime. To define the `data` section, use the following syntax:
 
 ```assembly
 ;; Definition of the data section
@@ -204,7 +209,7 @@ There are more details related to the Linux `x86_64` calling conventions, but th
 - Link our assembly program with the C standard library and use [printf](https://man7.org/linux/man-pages/man3/printf.3.html) or any other function that can help us to write a text to the [standard output](https://en.wikipedia.org/wiki/Standard_streams).
 - Use the operating system's API directly.
 
-As we focus mostly on assembly, we will use the second way. Each operating system provides an interface that a user-level application may use to interact with the operating system. Usually, the functions of this interface are called **system calls**. The Linux kernel also provides a set of system calls to interact with it. [Here](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl) you can find the full list of system calls with their respective numbers for Linux `x86_64`. Looking at this table, we can see such entry for the `sys_write` system call:
+As we focus mostly on assembly, we will use the second way. Each operating system provides an interface that a user-level application may use to interact with the operating system. Usually, the functions of this interface are called **system calls** (aka. **syscall**). The Linux kernel also provides a set of system calls to interact with it. [Here](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl) you can find the full list of system calls with their respective numbers for Linux `x86_64`. Looking at this table, we can see such entry for the `sys_write` system call:
 
 ```
 1	common	write			sys_write
@@ -255,11 +260,17 @@ The system call number for `sys_exit` is `60`, so we put `60` into the `rax` reg
 
 ### Building and running the program
 
-Now, let’s build the program and create an executable with these commands:
+Now, let’s build the program and create an executable with these commands,
 
+Firstly, here's the 64-bit way
 ```bash
-nasm -f elf64 -o hello.o hello.asm
-ld -o hello hello.o
+nasm -f elf64 -o hello.o hello.asm , or nasm -f elf64 hello.asm -o hello.o
+ld -o hello hello.o , or ld hello.o -o hello
+```
+Secondly, here's the 32-bit way
+```bash
+nasm -f elf64 -o hello.o hello.asm, or nasm -f elf64 hello.asm -o hello.o
+ld -o hello hello.o, or ld hello.o -o hello
 ```
 
 As it was mentioned in the [Basics of NASM assembly syntax](#basics-of-nasm-assembly-syntax) section, program building consists of two steps:
