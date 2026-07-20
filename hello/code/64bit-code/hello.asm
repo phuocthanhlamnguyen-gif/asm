@@ -1,9 +1,12 @@
 ;; Definition of the `data` section
+
+;;64-bit version
 section .data
         ;; String variable with the value `hello world!`. 
         ;; `10` is the ASCII code of the new line symbol.
         msg db "hello, world!", 10
-
+        ;;Size of msg
+        .size equ $ - msg
 ;; Definition of the text section
 section .text
         ;; Reference to the entry point of our program
@@ -18,13 +21,15 @@ _start:
         ;; Set the second argument of `sys_write` to the reference of the `msg` variable.
         mov rsi, msg
         ;; Set the third argument of `sys_write` to the length of the `msg` variable's value (14 bytes).
-        mov rdx, 14
+        mov rdx, msg.size
         ;; Call the `sys_write` system call.
         syscall
-
+        ;;Clear the string heh
+        xor rsi, rsi
         ;; Specify the number of the system call (60 is `sys_exit`).
         mov rax, 60
         ;; Set the first argument of `sys_exit` to 0. The 0 status code is success.
         mov rdi, 0
         ;; Call the `sys_exit` system call.
         syscall
+        ;;Joke of the day: How do cow do math, it use a 'cow'culator 
