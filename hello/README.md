@@ -8,12 +8,6 @@ To build the program, run:
 make
 ```
 
-And if you want to get the binary, go to:
-```bash
-application > 32bit-bin (if on a 32-bit computer) > hello32_application
-application > 64bit-bin (if on a 64-bit computer) > hello_application
-```
-
 If you want to get the code, go to:
 ```bash
 code > 32bit-code (if on a 32-bit computer) > hello32.asm
