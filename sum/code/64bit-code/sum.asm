@@ -5,8 +5,9 @@ section .data
         ;; The second number
         num2 dq 0x32
         ;; The message to print if the sum is correct
-        msg db "The sum is correct!", 10
-
+        msg db "The sum is correct!", 0ah
+        ;;To get the size of msg
+        msg_size equ $ - msg
 ;; Definition of the .text section
 section .text
         ;; Reference to the entry point of our program
@@ -23,10 +24,10 @@ _start:
 .compare:
         ;; Compare the rax value with 150
         cmp rax, 150
-        ;; Go to the .exit label if the rax value is not 150
-        jne .exit
-        ;; Go to the .correctSum label if the rax value is 150
-        jmp .correctSum
+        ;; Go to the .correctSum label if the rax value is equal to 150
+        je .correctSum
+        ;; Go to the .correctSum label if the rax value is not equal to 150
+        jmp .exit
 
 ;; Print a message that the sum is correct
 .correctSum:
@@ -37,7 +38,7 @@ _start:
         ;; Set the second argument of `sys_write` to the reference of the `msg` variable.
         mov rsi, msg
         ;; Set the third argument to the length of the `msg` variable's value (20 bytes).
-        mov rdx, 20
+        mov rdx, msg_size
         ;; Call the `sys_write` system call.
         syscall
         ;; Go to the exit of the program.
